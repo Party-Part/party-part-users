@@ -1,2 +1,6 @@
-# party-part-users
-REST service to handle user-related information
+# Party Part Users
+
+Functional requirenments:
+
+- get user information
+- crud for user
