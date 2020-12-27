@@ -1,6 +1,6 @@
 # Party Part Users
 
-Functional requirenments:
+Functional requirenments :
 
 - get user information
 - crud for user
