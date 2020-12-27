@@ -26,9 +26,8 @@ jobs:
     - name: Build and push
       id: docker_build
       uses: docker/build-push-action@v2
-      working-directory: ./PartyPartUsers/PartyPartUsers
       with:
-        context: .
+        context: ./PartyPartUsers/PartyPartUsers
         push: true
         tags: ${{ secrets.DOCKER_REGISTRY_G }}/${{secrets.DOCKER_REPO_G}}/party-part-users:latest
         file: Dockerfile
