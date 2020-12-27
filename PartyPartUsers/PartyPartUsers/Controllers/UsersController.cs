@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -23,6 +24,7 @@ namespace PartyPartUsers.Controllers
         }
 
         [HttpGet]
+        [EnableCors("AllowAll")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             return await _dbContext.Users
@@ -31,6 +33,7 @@ namespace PartyPartUsers.Controllers
         }
         
         [HttpGet("{id}")]
+        [EnableCors("AllowAll")]
         public async Task<ActionResult<UserDTO>> GetUser(long id)
         {
             var todoItem = await _dbContext.Users.FindAsync(id);
@@ -42,9 +45,27 @@ namespace PartyPartUsers.Controllers
 
             return UserToDTO(todoItem);
         }
+        
+        [HttpGet("{id}")]
+        [EnableCors("AllowAll")]
+        [Route("tg/{id}")]
+        public async Task<ActionResult<UserDTO>> GetTelegram(long id)
+        {
+            var user = from b in _dbContext.Users
+                where b.telegram_id == id.ToString()
+                select b;
+
+            if (user.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return UserToDTO(user.First());
+        }
 
         
         [HttpPost]
+        [EnableCors("AllowAll")]
         public async Task<ActionResult<User>> Users(User user)
         {
             _dbContext.Add(user);
@@ -54,7 +75,22 @@ namespace PartyPartUsers.Controllers
             return CreatedAtAction("users", new { id = user.user_id }, user);
         }
         
+        [HttpPost]
+        [EnableCors("AllowAll")]
+        [Route("anon")]
+        public async Task<ActionResult<User>> Anon(UserDTO userName)
+        {
+            var user = CreateAnonUser(userName);
+            _dbContext.Add(user);
+            await _dbContext.SaveChangesAsync();
+
+            //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+            return CreatedAtAction("users", new { id = user.user_id }, user);
+        }
+
+
         [HttpPut("{id}")]
+        [EnableCors("AllowAll")]
         public async Task<IActionResult> PutUsers(long id, UserDTO userDTO)
         {
             if (id != userDTO.user_id)
@@ -84,7 +120,10 @@ namespace PartyPartUsers.Controllers
             return NoContent();
         }
         
+        
+        
         [HttpDelete("{id}")]
+        [EnableCors("AllowAll")]
         public async Task<IActionResult> DeleteUsers(long id)
         {
             var todoItem = await _dbContext.Users.FindAsync(id);
@@ -112,6 +151,12 @@ namespace PartyPartUsers.Controllers
                 login = user.login,
                 email = user.email,
                 telegram_id = user.telegram_id,
+            };
+        
+        private static User CreateAnonUser(UserDTO userDto) =>
+            new User
+            {
+                name = userDto.name
             };
     }
 }
