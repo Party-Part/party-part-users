@@ -30,7 +30,7 @@ jobs:
         context: ./PartyPartUsers/PartyPartUsers
         push: true
         tags: ${{ secrets.DOCKER_REGISTRY_G }}/${{secrets.DOCKER_REPO_G}}/party-part-users:latest
-        file: Dockerfile
+        file: ./PartyPartUsers/PartyPartUsers/Dockerfile
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
     # Push the Docker image to Google Container Registry
