@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using PartyPartUsers.Models;
 
 namespace PartyPartUsers
@@ -30,19 +31,30 @@ namespace PartyPartUsers
             services.AddDbContext<UserContext>(opt =>
                 opt.UseNpgsql("Host=rc1a-b123fvq685u6nb54.mdb.yandexcloud.net;Port=6432;Database=party-part;User Id=root;Password=rootroot;SslMode=Require;Trust Server Certificate=true"));
             services.AddControllers();
+            services.AddCors(options => options.AddPolicy(
+                "AllowAll", 
+                builder => builder.WithOrigins("http://localhost:3000")
+                    .WithHeaders(HeaderNames.ContentType, "application/json")
+                    .WithMethods("PUT", "DELETE", "GET", "OPTIONS", "POST")        
+                    .AllowCredentials()
+                    .AllowAnyHeader()
+            ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 

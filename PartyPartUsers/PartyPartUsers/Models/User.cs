@@ -13,6 +13,6 @@ namespace PartyPartUsers.Models
         public string login { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public long? telegram_id { get; set; }
+        public string? telegram_id { get; set; }
     }
 }
