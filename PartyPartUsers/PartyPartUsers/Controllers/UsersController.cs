@@ -87,6 +87,24 @@ namespace PartyPartUsers.Controllers
             //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
             return CreatedAtAction("users", new { id = user.user_id }, user);
         }
+        
+        [HttpPost]
+        [EnableCors("AllowAll")]
+        [Route("login")]
+        public async Task<ActionResult<User>> Login(LoginPasswordDTO userDto)
+        {
+            var user = from b in _dbContext.Users
+                where b.login == userDto.login && 
+                      b.password == userDto.password
+                select b;
+
+            if (user.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction("users", new { id = user.First().user_id }, user);
+        }
 
 
         [HttpPut("{id}")]
