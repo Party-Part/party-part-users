@@ -33,7 +33,7 @@ namespace PartyPartUsers
             services.AddControllers();
             services.AddCors(options => options.AddPolicy(
                 "AllowAll", 
-                builder => builder.WithOrigins("http://localhost:3000")
+                builder => builder.WithOrigins("http://localhost:3000", "http://prtprt.ru")
                     .WithHeaders(HeaderNames.ContentType, "application/json")
                     .WithMethods("PUT", "DELETE", "GET", "OPTIONS", "POST")        
                     .AllowCredentials()
