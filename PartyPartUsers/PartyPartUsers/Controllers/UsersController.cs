@@ -34,6 +34,7 @@ namespace PartyPartUsers.Controllers
         
         [HttpGet("{id}")]
         [EnableCors("AllowAll")]
+        [Route("id/{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(long id)
         {
             var todoItem = await _dbContext.Users.FindAsync(id);
