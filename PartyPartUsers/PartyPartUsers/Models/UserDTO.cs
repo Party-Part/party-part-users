@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PartyPartUsers.Models
 {
-    [Table("users")] 
+    [Table("user")]
     public class UserDTO
     {
         public long? user_id { get; set; }
