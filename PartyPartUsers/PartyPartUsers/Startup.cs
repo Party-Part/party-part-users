@@ -29,7 +29,7 @@ namespace PartyPartUsers
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<UserContext>(opt =>
-                opt.UseNpgsql("Host=rc1a-b123fvq685u6nb54.mdb.yandexcloud.net;Port=6432;Database=party-part;User Id=root;Password=rootroot;SslMode=Require;Trust Server Certificate=true"));
+                opt.UseNpgsql("Host=rc1b-cgbn16uj66e6bvmj.mdb.yandexcloud.net;Port=6432;Database=party-part;User Id=root;Password=rootroot;SslMode=Require;Trust Server Certificate=true"));
             services.AddControllers();
             services.AddCors(options => options.AddPolicy(
                 "AllowAll", 
