@@ -40,6 +40,7 @@ jobs:
         host: ${{ secrets.HOST_G }}
         username: ${{ secrets.HOST_USERNAME_G }}
         key: ${{ secrets.SSH_KEY_G }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE_G }}
         script: |
           sudo docker stop party-part-users || true
           sudo docker rm party-part-users || true
